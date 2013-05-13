@@ -102,7 +102,7 @@
     // 2.限制总上传数据的长度。
     //su.setTotalMaxFileSize(20000);
     // 3.设定允许上传的文件（通过扩展名限制）,仅允许doc,txt文件。
-    su.setAllowedFilesList("doc,txt,jpg,xls,pdf");
+    su.setAllowedFilesList("docx,doc,txt,rtf,jpg,xls,pdf,pptx,ppt");
     // 4.设定禁止上传的文件（通过扩展名限制）,禁止上传带有exe,bat, jsp,htm,html扩展名的文件和没有扩展名的文件。
     su.setDeniedFilesList("exe,bat,jsp,htm,html");
     // 上传文件
@@ -140,7 +140,7 @@
             System.out.println();
             info.setUsername((String) request.getSession()
                     .getAttribute("adminUser"));
-            info.setOldpath(upload_dir.getAbsolutePath() + file.getFileName());
+            info.setOldpath(upload_dir.getAbsolutePath() + File.separator + file.getFileName());
             fileInfoq.savefileInfo(info);
         } else {
             info.setFilesize(String.valueOf(file.getSize()));
