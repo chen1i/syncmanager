@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=gb2312" language="java"
 	import="java.util.*,com.jspsmart.upload.*" errorPage=""%>
-<%@page import="com.download.server.fileInfo"%>
+<%@page import="com.download.server.FileInfo"%>
 <%@page import="java.text.SimpleDateFormat"%>
-<jsp:useBean id="fileInfoq" class="com.download.server.fileInfoDao" />
+<jsp:useBean id="fileInfoq" class="com.download.server.FileInfoDao" />
 <html>
 	<head>
 		<title>文件上传处理页面</title>
@@ -117,9 +117,9 @@ html>body td {
 			// 逐一提取上传文件信息，同时可保存文件。 
 			for (int i = 0; i < su.getFiles().getCount(); i++) {
 				com.jspsmart.upload.File file = su.getFiles().getFile(i);
-				    fileInfo info=fileInfoq.getfileInfoByFileName(file.getFileName());
+				    FileInfo info=fileInfoq.getfileInfoByFileName(file.getFileName());
 				if (null == info) {
-				    info = new fileInfo();
+				    info = new FileInfo();
 					info.setFilename(file.getFileName());
 					info.setFilepath("/upload/" + file.getFileName());
 					info.setFilesize(String.valueOf(file.getSize()));

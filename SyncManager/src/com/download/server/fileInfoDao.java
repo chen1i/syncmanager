@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class fileInfoDao extends BaseDAO {
-	public boolean savefileInfo(fileInfo info) {
+public class FileInfoDao extends BaseDAO {
+	public boolean savefileInfo(FileInfo info) {
 		boolean isflat = false;
 		String sql = "insert into fileInfo(filename,filesize,version,createdate,filepath,username,oldpath) "
 				+ "values(?,?,?,?,?,?,?)";
@@ -35,7 +35,7 @@ public class fileInfoDao extends BaseDAO {
 		return isflat;
 	}
 
-	public boolean updatefileInfo(fileInfo info) {
+	public boolean updatefileInfo(FileInfo info) {
 		boolean isflat = false;
 		String sql = "update fileInfo set version=?,maxsize=?,filesize=? where id=?";
 		Connection conn = this.getConn();
@@ -67,7 +67,7 @@ public class fileInfoDao extends BaseDAO {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				fileInfo info = new fileInfo();
+				FileInfo info = new FileInfo();
 				info.setId(rs.getInt("id"));
 				info.setFilename(rs.getString("filename"));
 				info.setFilesize(rs.getString("filesize"));
@@ -96,7 +96,7 @@ public class fileInfoDao extends BaseDAO {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				fileInfo info = new fileInfo();
+				FileInfo info = new FileInfo();
 				info.setId(rs.getInt("id"));
 				info.setFilename(rs.getString("filename"));
 				info.setFilesize(rs.getString("filesize"));
@@ -117,15 +117,15 @@ public class fileInfoDao extends BaseDAO {
 		return list;
 	}
 	
-	public fileInfo getfileInfoById(int id) {
+	public FileInfo getfileInfoById(int id) {
 		String sql = "select * from fileInfo where id=" + id;
 		Connection conn = getConn();
-		fileInfo info = null;
+		FileInfo info = null;
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				info = new fileInfo();
+				info = new FileInfo();
 				info.setId(rs.getInt("id"));
 				info.setFilename(rs.getString("filename"));
 				info.setFilesize(rs.getString("filesize"));
@@ -145,15 +145,15 @@ public class fileInfoDao extends BaseDAO {
 		return info;
 	}
 	
-	public fileInfo getfileInfoByFileName(String fileName) {
+	public FileInfo getfileInfoByFileName(String fileName) {
 		String sql = "select * from fileInfo where filename='"+fileName+"'";
 		Connection conn = getConn();
-		fileInfo info = null;
+		FileInfo info = null;
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				info = new fileInfo();
+				info = new FileInfo();
 				info.setId(rs.getInt("id"));
 				info.setFilename(rs.getString("filename"));
 				info.setFilesize(rs.getString("filesize"));

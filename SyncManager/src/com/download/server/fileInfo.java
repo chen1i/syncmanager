@@ -2,7 +2,7 @@ package com.download.server;
 
 import java.net.URLEncoder;
 
-public class fileInfo {
+public class FileInfo {
 	/**
 	 * ×Ô¶¯±àºÅID
 	 */

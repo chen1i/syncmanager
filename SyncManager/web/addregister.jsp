@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=gb2312" pageEncoding="gb2312"%>
-<%@page import="com.download.server.userInfo"%>
-<jsp:useBean id="userInfoDq" class="com.download.server.userInfoDao"/>
+<%@page import="com.download.server.UserInfo"%>
+<jsp:useBean id="userInfoDq" class="com.download.server.UserInfoDao"/>
 
 <meta http-equiv="Content-Type" content="text/html; gb2312">
 <%
@@ -10,7 +10,7 @@
     //得到用户输入的密码
     String password=(String)request.getParameter("password");
      String type=(String)request.getParameter("type");
-  com.download.server.userInfo user=new com.download.server.userInfo();
+  UserInfo user=new UserInfo();
 	      user.setUsername(username);
 	      user.setUserRealName(password);
 	      user.setRemark(type);

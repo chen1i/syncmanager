@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class userInfoDao extends BaseDAO {
-	public boolean saveUserInfo(userInfo info) {
+public class UserInfoDao extends BaseDAO {
+	public boolean saveUserInfo(UserInfo info) {
 		boolean isflat = false;
 		String sql = "insert into userInfo(username,userRealName,userclass,scroe,remark) "
 				+ "values(?,?,?,?,?)";
@@ -37,7 +37,7 @@ public class userInfoDao extends BaseDAO {
 		return isflat;
 	}
 
-	public boolean updateuserInfo(userInfo info) {
+	public boolean updateuserInfo(UserInfo info) {
 		boolean isflat = false;
 		String sql = "update userInfo set username=?,userRealName=?,userclass=?,scroe=?,remark=? where id=?";
 		Connection conn = this.getConn();
@@ -71,7 +71,7 @@ public class userInfoDao extends BaseDAO {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				userInfo info = new userInfo();
+				UserInfo info = new UserInfo();
 				info.setId(rs.getInt("id"));
 				info.setUsername(rs.getString("username"));
 				info.setUserRealName(rs.getString("userRealName"));
@@ -97,7 +97,7 @@ public class userInfoDao extends BaseDAO {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				userInfo info = new userInfo();
+				UserInfo info = new UserInfo();
 				info.setId(rs.getInt("id"));
 				info.setUsername(rs.getString("username"));
 				info.setUserRealName(rs.getString("userRealName"));
@@ -115,15 +115,15 @@ public class userInfoDao extends BaseDAO {
 		return list;
 	}
 	
-	public userInfo getAlluserInfoByUserName(String userName) {
-		userInfo info=null;
+	public UserInfo getAlluserInfoByUserName(String userName) {
+		UserInfo info=null;
 		String sql = "select * from userInfo where username = '"+userName+"'";
 		Connection conn = getConn();
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-			    info = new userInfo();
+			    info = new UserInfo();
 				info.setId(rs.getInt("id"));
 				info.setUsername(rs.getString("username"));
 				info.setUserRealName(rs.getString("userRealName"));
@@ -140,15 +140,15 @@ public class userInfoDao extends BaseDAO {
 		return info;
 	}
 	
-	public userInfo getuserInfoById(int id) {
+	public UserInfo getuserInfoById(int id) {
 		String sql = "select * from userInfo where id=" + id;
 		Connection conn = getConn();
-		userInfo info = null;
+		UserInfo info = null;
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				info = new userInfo();
+				info = new UserInfo();
 				info.setId(rs.getInt("id"));
 				info.setUsername(rs.getString("username"));
 				info.setUserRealName(rs.getString("userRealName"));
@@ -164,10 +164,10 @@ public class userInfoDao extends BaseDAO {
 		}
 		return info;
 	}
-	public userInfo deleteUserInfoById(int id) {
+	public UserInfo deleteUserInfoById(int id) {
 		String sql = "delete from userInfo where id=" + id;
 		Connection conn = getConn();
-		userInfo info = null;
+		UserInfo info = null;
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.executeUpdate();
@@ -180,15 +180,15 @@ public class userInfoDao extends BaseDAO {
 		return info;
 	}
 	
-	public userInfo getAlluserInfoByUserNameAndPassword(String userName,String password,String type) {
-		userInfo info=null;
+	public UserInfo getAlluserInfoByUserNameAndPassword(String userName,String password,String type) {
+		UserInfo info=null;
 		String sql = "select * from userInfo where username = '"+userName+"' and userRealName='"+password+"' and remark='"+type+"'";
 		Connection conn = getConn();
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-			    info = new userInfo();
+			    info = new UserInfo();
 				info.setId(rs.getInt("id"));
 				info.setUsername(rs.getString("username"));
 				info.setUserRealName(rs.getString("userRealName"));

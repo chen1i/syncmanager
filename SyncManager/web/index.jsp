@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="GBK"%>
-<%@page import="com.download.server.userInfo"%>
-<jsp:useBean id="userInfoS" class="com.download.server.userInfoDao"/>
+<%@page import="com.download.server.UserInfo"%>
+<jsp:useBean id="userInfoS" class="com.download.server.UserInfoDao"/>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   String password=(String)request.getParameter("password");
   //判断用户名密码是否为NUll
   if(null!=username && null!=password){
-     userInfo userinfo=userInfoS.getAlluserInfoByUserNameAndPassword(username,password,"2");
+     UserInfo userinfo=userInfoS.getAlluserInfoByUserNameAndPassword(username,password,"2");
      if(null!=userinfo){
 	     //用户名密码设置正确,绑定对应的用户到session中
 	     request.getSession().setAttribute("adminUser",username);

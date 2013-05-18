@@ -1,10 +1,10 @@
 <%@ page contentType="text/html;charset=gb2312" pageEncoding="gb2312" %>
 <%@page import="java.util.*"%>
-	<%@page import="com.download.server.fileInfo"%>
-	<jsp:useBean id="fileInfos" class="com.download.server.fileInfoDao"/>
+	<%@page import="com.download.server.FileInfo"%>
+	<jsp:useBean id="fileInfos" class="com.download.server.FileInfoDao"/>
 <%
     if(null!=request.getParameter("id")){
-       fileInfo info=fileInfos.getfileInfoById(Integer.parseInt(request.getParameter("id")));
+       FileInfo info=fileInfos.getfileInfoById(Integer.parseInt(request.getParameter("id")));
        info.setVersion(String.valueOf(Integer.parseInt(info.getVersion())+1));
        fileInfos.updatefileInfo(info);
          %>
@@ -121,7 +121,7 @@ html>body td {
         </tr>
          	<%
          	     for(int index=0;index<userList.size();index++){
-         	        fileInfo user=(fileInfo)userList.get(index);%>
+         	        FileInfo user=(FileInfo)userList.get(index);%>
          	        <tr  align="center">
 					<td>
 						<%= index+1%>

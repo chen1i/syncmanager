@@ -1,7 +1,7 @@
 package com.download.server;
 
 
-public class userInfo {
+public class UserInfo {
 	private int id;
 	private String username;
 	private String userRealName;
