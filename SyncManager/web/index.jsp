@@ -1,6 +1,6 @@
 <%@ page language="java" pageEncoding="GBK"%>
-<%@page import="com.download.server.UserInfo"%>
-<jsp:useBean id="userInfoS" class="com.download.server.UserInfoDao"/>
+<%@page import="com.syncmanager.dao.orm.UserInfo"%>
+<jsp:useBean id="userInfoS" class="com.syncmanager.dao.UserInfoDao"/>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";

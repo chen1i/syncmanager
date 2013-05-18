@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=gb2312" pageEncoding="gb2312"%>
-<%@page import="com.download.server.UserInfo"%>
-<jsp:useBean id="userInfoDq" class="com.download.server.UserInfoDao"/>
+<%@page import="com.syncmanager.dao.orm.UserInfo"%>
+<jsp:useBean id="userInfoDq" class="com.syncmanager.dao.UserInfoDao"/>
 
 <meta http-equiv="Content-Type" content="text/html; gb2312">
 <%

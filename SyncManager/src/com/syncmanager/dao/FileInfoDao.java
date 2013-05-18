@@ -1,11 +1,11 @@
 package com.syncmanager.dao;
 
+import com.syncmanager.dao.orm.FileInfo;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.syncmanager.dao.orm.FileInfo;
 
 /**
  * Created with Eclipse
@@ -177,9 +177,5 @@ public class FileInfoDao extends BaseDAO {
             this.closeConn(conn);
         }
         return info;
-    }
-
-    public static List<FileInfo> listAllFiles() {
-        return List< FileInfo >;
     }
 }

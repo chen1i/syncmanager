@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=gb2312" language="java"
          import="java.util.*" errorPage="" %>
-<%@page import="com.download.server.FileInfo" %>
+<%@page import="com.syncmanager.dao.orm.FileInfo" %>
 <%@page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.jspsmart.upload.SmartUpload" %>
 <%@ page import="java.io.File" %>
-<jsp:useBean id="fileInfoq" class="com.download.server.FileInfoDao"/>
+<jsp:useBean id="fileInfoq" class="com.syncmanager.dao.FileInfoDao"/>
 <html>
 <head>
     <title>文件上传处理页面</title>
@@ -44,7 +44,7 @@
             text-transform: uppercase;
             text-align: left;
             padding: 6px 6px 6px 12px;
-            background: #CAE8EA url(images/bg_header.jpg) no-repeat;
+            background: #CAE8EA url(images/bg.gif) no-repeat;
         }
 
         th.nobg {
@@ -71,14 +71,14 @@
         th.spec {
             border-left: 1px solid #C1DAD7;
             border-top: 0;
-            background: #fff url(images/bullet1.gif) no-repeat;
+            background: #fff url(images/bullet.gif) no-repeat;
             font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
         }
 
         th.specalt {
             border-left: 1px solid #C1DAD7;
             border-top: 0;
-            background: #f5fafa url(images/bullet2.gif) no-repeat;
+            background: #f5fafa url(images/bullet.gif) no-repeat;
             font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
             color: #797268;
         }

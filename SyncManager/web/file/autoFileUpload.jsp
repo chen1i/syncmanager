@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=gb2312" pageEncoding="gb2312" %>
 <%@page import="java.util.*"%>
-	<%@page import="com.download.server.FileInfo"%>
-	<jsp:useBean id="fileInfos" class="com.download.server.FileInfoDao"/>
+	<%@page import="com.syncmanager.dao.orm.FileInfo"%>
+	<jsp:useBean id="fileInfos" class="com.syncmanager.dao.FileInfoDao"/>
 <%
     if(null!=request.getParameter("id")){
        FileInfo info=fileInfos.getfileInfoById(Integer.parseInt(request.getParameter("id")));

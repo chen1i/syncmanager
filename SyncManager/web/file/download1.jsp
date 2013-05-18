@@ -1,9 +1,9 @@
 <%@page language="java" contentType="application/x-msdownload"
         pageEncoding="gb2312" %>
-<%@page import="com.download.server.FileInfo" %>
+<%@page import="com.syncmanager.dao.orm.FileInfo" %>
 <%@page import="java.io.*" %>
 <%@page import="java.net.URLEncoder" %>
-<jsp:useBean id="fileInfos" class="com.download.server.FileInfoDao"/>
+<jsp:useBean id="fileInfos" class="com.syncmanager.dao.FileInfoDao"/>
 <%
     FileInfo info = fileInfos.getfileInfoById(Integer.parseInt(request
             .getParameter("id")));

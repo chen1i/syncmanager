@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DaoLib/DaoLib.iml" filepath="$PROJECT_DIR$/DaoLib/DaoLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SyncClient/SyncClient.iml" filepath="$PROJECT_DIR$/SyncClient/SyncClient.iml" />
       <module fileurl="file://$PROJECT_DIR$/SyncManager/SyncManager.iml" filepath="$PROJECT_DIR$/SyncManager/SyncManager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SyncServer/SyncServer.iml" filepath="$PROJECT_DIR$/SyncServer/SyncServer.iml" />
     </modules>
   </component>
 </project>
