@@ -1,115 +1,90 @@
 package com.syncmanager.svc.server;
 
-import com.syncmanager.dao.FileInfoDao;
-import com.syncmanager.dao.orm.FileInfo;
-
-import java.io.DataInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
-import java.util.Date;
+import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
 
-public class ServerMain extends Thread {
+public class ServerMain {
+    final int DEFAULT_PORT = 5555;
+    final String IP = "127.0.0.1";
 
-    static String theData = "";
-    static String ContentType;
-    Socket theConnection;
+    int port;
+
+    public ServerMain(String s) {
+        port = Integer.parseInt(s);
+    }
+
 
     public static void main(String[] args) {
+        System.out.println("################################");
+        System.out.printf("Server start on port %s ...\n", args.length > 0 ? args[0] : "5555");
+        System.out.println("################################");
 
-        int thePort;
-        ServerSocket ss;
-        Socket theConnection;
-        FileInputStream theFile;
+        ServerMain svc = new ServerMain(args.length > 0 ? args[0] : "5555");
+        svc.start();
+    }
 
-        // cache the file
-        try {
-            theFile = new FileInputStream(args[0]);
-            DataInputStream dis = new DataInputStream(theFile);
-            if (args[0].endsWith(".html") || args[0].endsWith(".htm")) {
-                ContentType = "text/html";
-            }
-            else {
-                ContentType = "text/plain";
-            }
+    private void start() {
+        //Java 7 的新语法
+        try (ServerSocketChannel ssc = ServerSocketChannel.open()) {
+            if (ssc.isOpen()) {
+                //服务器端socket工作于阻塞模式
+                ssc.configureBlocking(true);
 
-            try {
-                String thisLine = "";
-                while ((thisLine = dis.readLine()) != null) {
-                    theData += thisLine + "\n";
+                //设定一些socket参数
+                ssc.setOption(StandardSocketOptions.SO_RCVBUF, 1024 * 4);
+                ssc.setOption(StandardSocketOptions.SO_REUSEADDR, true);
+
+                //绑定到指定的监听端口
+                ssc.bind(new InetSocketAddress(port));
+
+                //整个流程是串行的，每次只能处理一个连接
+                while (true) {
+                    //开始接受连接请求，程序会阻塞在这一步直到有连接请求进来
+                    try (SocketChannel sc = ssc.accept()) {
+                        System.out.println("已接受从" + sc.getRemoteAddress() + "来的连接");
+
+                        //和客户端的连接已建立，开始实际处理客户端的数据
+                        handle_connection(sc);
+                    } catch (IOException ex) {
+                        //do nothing
+                    }
                 }
             }
-            catch (Exception e) {
-                System.err.println("Error: " + e);
-            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-        }
-        catch (Exception e) {
-            System.err.println(e);
-            System.err.println("Usage: java onefile filename port");
-            System.exit(1);
-        }
-
-        // set the port to listen on
-        try {
-            thePort = Integer.parseInt(args[1]);
-            if (thePort < 0 || thePort > 65535) thePort = 80;
-        }
-        catch (Exception e) {
-            thePort = 80;
-        }
-
-        try {
-            ss = new ServerSocket(thePort);
-            System.out.println("Accepting connections on port "
-                    + ss.getLocalPort());
-            System.out.println("Data to be sent:");
-            System.out.println(theData);
-            while (true) {
-                ServerMain fs = new ServerMain(ss.accept());
-                fs.start();
+    private void handle_connection(SocketChannel sc) throws IOException {
+        System.out.println("We are going to receive something ...");
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        CharBuffer charbuffer;
+        CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
+        while (sc.read(buffer) != -1) {
+            buffer.flip();
+            charbuffer = decoder.decode(buffer);
+            String a = charbuffer.toString();
+            System.out.println("接收到 " + a);
+            buffer.clear();
+            String b = a.toUpperCase();
+            buffer.put(b.getBytes());
+            buffer.flip();
+            int n = sc.write(buffer);
+            System.out.println("发送了 "+n+" 字节");
+            if (buffer.hasRemaining()) {
+                System.out.println(">>>>>>>>>>>>>>>");
+                buffer.compact();
+            } else {
+                System.out.println("<<<<<<<<<<<<<<<");
+                buffer.clear();
             }
         }
-        catch (IOException e) {
-
-        }
-
     }
-
-    public ServerMain(Socket s) {
-        theConnection = s;
-    }
-
-    public void run() {
-
-        try {
-            PrintStream os = new PrintStream(theConnection.getOutputStream());
-            DataInputStream is = new DataInputStream(theConnection.getInputStream());
-            String request = is.readLine();
-            // If this is HTTP/1.0 or later send a MIME header
-            if (request.indexOf("HTTP/") != -1) {
-                while (true) {  // read the rest of the MIME header
-                    String thisLine = is.readLine();
-                    if (thisLine.trim().equals("")) break;
-                }
-
-                os.print("HTTP/1.0 200 OK\r\n");
-                Date now = new Date();
-                os.print("Date: " + now + "\r\n");
-                os.print("Server: OneFile 1.0\r\n");
-                os.print("Content-length: " + theData.length() + "\r\n");
-                os.print("Content-type: " + ContentType + "\r\n\r\n");
-            } // end if
-            os.println(theData);
-            theConnection.close();
-        }  // end try
-        catch (IOException e) {
-
-        }
-
-    }
-
 }

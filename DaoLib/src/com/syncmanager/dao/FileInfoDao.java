@@ -179,7 +179,4 @@ public class FileInfoDao extends BaseDAO {
         return info;
     }
 
-    public static List<FileInfo> listAllFiles() {
-        return List< FileInfo >;
-    }
 }
