@@ -13,7 +13,7 @@
     <file path="/a.regexp" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368482323736" ignored="false" />
     <file path="/File Header.txt.ft" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368845466619" ignored="false" />
     <file path="/FileInfo.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368845852453" ignored="false" />
-    <file path="/fragment.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368870307278" ignored="false" />
+    <file path="/fragment.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1369141217386" ignored="false" />
     <file path="/UserInfo.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368845915472" ignored="false" />
     <file path="/FileInfoDao.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368866726297" ignored="false" />
     <file path="/a.dummy" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368864275516" ignored="false" />
@@ -25,7 +25,9 @@
     <file path="/Main.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368866630575" ignored="false" />
     <file path="/Dummy.txt" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1368866082518" ignored="false" />
     <file path="/ServerMain.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1369001736497" ignored="false" />
-    <file path="/ClientMain.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1369000846235" ignored="false" />
+    <file path="/ClientMain.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1369141554671" ignored="false" />
+    <file path="/FolderMonitor.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1369141885936" ignored="false" />
+    <file path="/Transfer.java" changelist="6676f85d-7f85-4c5e-8972-6ffecc432699" time="1369142403368" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +47,7 @@
     <sortChildren value="false" />
   </component>
   <component name="DebuggerManager">
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
@@ -82,23 +85,6 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java" line="69" class="com.syncmanager.svc.client.ClientMain" package="com.syncmanager.svc.client">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -108,10 +94,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ServerMain.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ServerMain.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/SyncServer/src/com/syncmanager/svc/server/ServerMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="0" selection-start="2678" selection-end="2678" vertical-scroll-proportion="0.9318182">
+            <state line="56" column="50" selection-start="1883" selection-end="1883" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -119,10 +105,30 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientMain.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="FolderMonitor.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/FolderMonitor.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="81" column="31" selection-start="2896" selection-end="2896" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClientMain.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="93" column="67" selection-start="3668" selection-end="3668" vertical-scroll-proportion="0.0">
+            <state line="42" column="49" selection-start="1102" selection-end="1102" vertical-scroll-proportion="0.93670887">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Transfer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/Transfer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="8" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -140,8 +146,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/DaoLib/src/com/syncmanager/dao/orm/UserInfo.java" />
-        <option value="$PROJECT_DIR$/DaoLib/src/com/syncmanager/dao/UserInfoDao.java" />
         <option value="$PROJECT_DIR$/SyncManager/src/com/download/server/FileInfo.java" />
         <option value="$PROJECT_DIR$/SyncManager/web/index.jsp" />
         <option value="$PROJECT_DIR$/SyncManager/src/dao/DBHelper.java" />
@@ -155,6 +159,8 @@
         <option value="$PROJECT_DIR$/SyncServer/src/com/syncmanager/svc/server/Main.java" />
         <option value="$PROJECT_DIR$/DaoLib/src/com/syncmanager/dao/FileInfoDao.java" />
         <option value="$PROJECT_DIR$/SyncServer/src/com/syncmanager/svc/server/ServerMain.java" />
+        <option value="$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/FolderMonitor.java" />
+        <option value="$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/Transfer.java" />
         <option value="$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java" />
       </list>
     </option>
@@ -167,10 +173,10 @@
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+    <option name="x" value="78" />
+    <option name="y" value="22" />
     <option name="width" value="1456" />
-    <option name="height" value="886" />
+    <option name="height" value="830" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -386,7 +392,7 @@
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
   <component name="ProjectReloadState">
-    <option name="STATE" value="2" />
+    <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -401,82 +407,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FromScratch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FromScratch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FromScratch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SyncServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FromScratch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SyncServer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="server" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FromScratch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SyncClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FromScratch" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SyncClient" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="client" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="Scope">
         <subPane subId="All">
           <PATH>
@@ -519,6 +449,54 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FromScratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FromScratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SyncServer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FromScratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SyncClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FromScratch" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SyncClient" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="client" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -526,12 +504,13 @@
     <property name="last_directory_selection" value="$PROJECT_DIR$/SyncClient/src" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="GoToFile.includeJavaFiles" value="false" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="options.lastSelected" value="preferences.keymap" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/DaoLib" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
@@ -547,6 +526,9 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Chen Li\Documents\FromScratch\SyncManager\src" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.syncmanager.svc.client" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.syncmanager.svc.client" />
@@ -847,13 +829,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="886" extended-state="6" />
+    <frame x="78" y="22" width="1456" height="830" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998565" sideWeight="0.6706667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.11549498" sideWeight="0.68133336" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.115384616" sideWeight="0.6829932" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.424" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -861,7 +843,7 @@
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32933334" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292517" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32933334" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -869,8 +851,8 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32933334" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20588236" sideWeight="0.68133336" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31866667" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20535715" sideWeight="0.6829932" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3170068" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.11466666" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -948,6 +930,29 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="67" selection-start="3668" selection-end="3668" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SyncServer/src/com/syncmanager/svc/server/ServerMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="67" selection-start="3668" selection-end="3668" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/SyncManager/web/admin_youke.jsp">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="50" selection-start="198" selection-end="198" vertical-scroll-proportion="0.20833333" />
@@ -965,30 +970,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncManager/web/file/download1.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="45" selection-start="337" selection-end="337" vertical-scroll-proportion="0.17073171">
-          <folding />
-        </state>
+        <state line="7" column="45" selection-start="337" selection-end="337" vertical-scroll-proportion="0.17073171" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncManager/web/file/fileInfo.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="58" selection-start="496" selection-end="496" vertical-scroll-proportion="0.2982456">
-          <folding />
-        </state>
+        <state line="12" column="58" selection-start="496" selection-end="496" vertical-scroll-proportion="0.2982456" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncManager/src/com/syncmanager/dao/FileInfoDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="26" selection-start="1316" selection-end="1330" vertical-scroll-proportion="0.17150761">
-          <folding />
-        </state>
+        <state line="43" column="26" selection-start="1316" selection-end="1330" vertical-scroll-proportion="0.17150761" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncManager/web/file/autoFileUpload.jsp">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="17" selection-start="463" selection-end="463" vertical-scroll-proportion="0.19883041">
-          <folding />
-        </state>
+        <state line="8" column="17" selection-start="463" selection-end="463" vertical-scroll-proportion="0.19883041" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncManager/web/do_upload.jsp">
@@ -996,58 +993,23 @@
         <state line="44" column="65" selection-start="1434" selection-end="1434" vertical-scroll-proportion="0.16642755" />
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_17/src.zip!/java/nio/ByteBuffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="411" column="40" selection-start="12676" selection-end="12676" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_17/src.zip!/java/nio/Buffer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="297" column="0" selection-start="9196" selection-end="9196" vertical-scroll-proportion="0.33136094">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="dbDummy://db-console:/9c75cb86/cc959f17-434a-4eb2-9a32-a70b93499e97/">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="23" selection-start="69" selection-end="69" vertical-scroll-proportion="0.086513996">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DaoLib/src/com/syncmanager/dao/FileInfoDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="177" column="34" selection-start="6460" selection-end="6460" vertical-scroll-proportion="0.556872">
+        <state line="177" column="34" selection-start="6460" selection-end="6460" vertical-scroll-proportion="0.556872" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/Transfer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="8" selection-start="1233" selection-end="1233" vertical-scroll-proportion="0.0">
           <folding>
-            <marker date="1368869977146" expanded="true" signature="-1:-1" placeholder="insert into ..." />
-            <marker date="1368869977146" expanded="true" signature="-1:-1" placeholder="update fileI..." />
-            <marker date="1368869977146" expanded="true" signature="-1:-1" placeholder="select * fro..fileInfo..." />
-            <marker date="1368869977146" expanded="true" signature="-1:-1" placeholder="select * fro..fileInfo..." />
-            <marker date="1368869977146" expanded="true" signature="-1:-1" placeholder="select * fro..fileInfo..." />
-            <marker date="1368869977146" expanded="true" signature="-1:-1" placeholder="select * fro..fileInfo..." />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_17/src.zip!/java/nio/channels/SocketChannel.java">
+    <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/FolderMonitor.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="478" column="24" selection-start="18116" selection-end="18116" vertical-scroll-proportion="0.33152175">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.7.0_17/src.zip!/java/lang/String.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2574" column="18" selection-start="102456" selection-end="102456" vertical-scroll-proportion="0.3316062">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="67" selection-start="3668" selection-end="3668" vertical-scroll-proportion="0.0">
+        <state line="81" column="31" selection-start="2896" selection-end="2896" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1056,10 +1018,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/SyncServer/src/com/syncmanager/svc/server/ServerMain.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="0" selection-start="2678" selection-end="2678" vertical-scroll-proportion="0.9318182">
+        <state line="56" column="50" selection-start="1883" selection-end="1883" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SyncClient/src/com/syncmanager/svc/client/ClientMain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="42" column="49" selection-start="1102" selection-end="1102" vertical-scroll-proportion="0.93670887">
+          <folding />
         </state>
       </provider>
     </entry>
