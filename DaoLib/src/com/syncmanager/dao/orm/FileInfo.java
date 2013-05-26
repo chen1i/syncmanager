@@ -6,9 +6,6 @@ package com.syncmanager.dao.orm;
  * Date: 13-5-18
  * Time: ÉÏÎç10:46
  */
-
-import java.net.URLEncoder;
-
 public class FileInfo {
     /**
      * ×Ô¶¯±àºÅID

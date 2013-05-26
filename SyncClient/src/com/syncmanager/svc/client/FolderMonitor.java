@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class FolderMonitor implements Runnable {
     private WatchService watchService;
-    private final Map<WatchKey, Path> directories = new HashMap<>();
+    private final Map<WatchKey, Path> directories = new HashMap();
     private Path start_folder;
     private Transfer comm;
 
@@ -27,7 +27,9 @@ public class FolderMonitor implements Runnable {
         System.out.println("开始定时扫描目录... ");
         try {
             watchRNDir(start_folder);
-        } catch (IOException | InterruptedException ex) {
+        } catch (IOException ex){
+            System.err.println(ex);
+        } catch (InterruptedException ex) {
             System.err.println(ex);
         }
     }

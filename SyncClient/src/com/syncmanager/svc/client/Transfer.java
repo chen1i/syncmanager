@@ -20,7 +20,8 @@ public class Transfer {
 
     public int send_file_to_server(String activity) {
         //创建客户端socket
-        try (SocketChannel socketChannel = SocketChannel.open()) {
+        try {
+            SocketChannel socketChannel = SocketChannel.open();
             if (socketChannel.isOpen()) {
                 //设置成阻塞模式
                 socketChannel.configureBlocking(true);
@@ -31,8 +32,23 @@ public class Transfer {
                 if (socketChannel.isConnected()) {
                     ByteBuffer sendBuffer = ByteBuffer.wrap(activity.getBytes());
                     //连接成功，开始传送数据
-                    socketChannel.write(sendBuffer);
+                    while(socketChannel.write(sendBuffer)>0) {
+                        if (sendBuffer.hasRemaining())
+                            sendBuffer.compact();
+                        else {
+                            sendBuffer.clear();
+                            break;
+                        }
+                    }
 
+                    //接收确认消息
+                    ByteBuffer recvBuffer = ByteBuffer.allocate(1024);
+                    while(socketChannel.read(recvBuffer) != -1) {
+                        recvBuffer.flip();
+                        System.out.println(Charset.defaultCharset().newDecoder()
+                                .decode(recvBuffer).toString());
+                        recvBuffer.clear();
+                    }
                     socketChannel.close();
                 }
             }
@@ -50,7 +66,8 @@ public class Transfer {
         CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
 
         //创建客户端socket
-        try (SocketChannel socketChannel = SocketChannel.open()) {
+        try {
+            SocketChannel socketChannel = SocketChannel.open();
             if (socketChannel.isOpen()) {
                 //设置成阻塞模式
                 socketChannel.configureBlocking(true);

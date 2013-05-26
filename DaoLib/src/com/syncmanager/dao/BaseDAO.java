@@ -13,9 +13,7 @@ import java.sql.SQLException;
  */
 public class BaseDAO {
     protected PreparedStatement ps;//protected：同包和子类
-    protected PreparedStatement ps1;//protected：同包和子类
     protected ResultSet rs;
-    protected ResultSet rs1;
 
     // 获得数据连接
     protected Connection getConn(){
@@ -26,12 +24,8 @@ public class BaseDAO {
     protected void closeConn(Connection conn){
         DBHelper.closeConn(conn);
     }
-    /***********************
-     *
-     * @param rs
-     * @param stmt
-     * @功能 关闭数据资源
-     */
+
+    // 关闭数据资源
     protected void closeResource() {
         // 关闭数据集合对象
         if (rs != null) {

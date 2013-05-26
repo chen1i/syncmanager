@@ -32,7 +32,8 @@ public class ServerMain {
 
     private void start() {
         //Java 7 的新语法
-        try (ServerSocketChannel ssc = ServerSocketChannel.open()) {
+        try {
+            ServerSocketChannel ssc = ServerSocketChannel.open();
             if (ssc.isOpen()) {
                 //服务器端socket工作于阻塞模式
                 ssc.configureBlocking(true);
@@ -47,13 +48,15 @@ public class ServerMain {
                 //整个流程是串行的，每次只能处理一个连接
                 while (true) {
                     //开始接受连接请求，程序会阻塞在这一步直到有连接请求进来
-                    try (SocketChannel sc = ssc.accept()) {
+                    try {
+                        SocketChannel sc = ssc.accept();
                         System.out.println("已接受从" + sc.getRemoteAddress() + "来的连接");
 
                         //和客户端的连接已建立，开始实际处理客户端的数据
                         handle_connection(sc);
                     } catch (IOException ex) {
-                        //do nothing
+                        ex.printStackTrace();
+                        break;
                     }
                 }
             }
@@ -62,29 +65,42 @@ public class ServerMain {
         }
     }
 
-    private void handle_connection(SocketChannel sc) throws IOException {
+    private void handle_connection(SocketChannel sc) {
         System.out.println("We are going to receive something ...");
         ByteBuffer buffer = ByteBuffer.allocate(1024);
         CharBuffer charbuffer;
         CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
-        while (sc.read(buffer) != -1) {
-            buffer.flip();
-            charbuffer = decoder.decode(buffer);
-            String a = charbuffer.toString();
-            System.out.println("接收到 " + a);
-            buffer.clear();
-            String b = a.toUpperCase();
-            buffer.put(b.getBytes());
-            buffer.flip();
-            int n = sc.write(buffer);
-            System.out.println("发送了 "+n+" 字节");
-            if (buffer.hasRemaining()) {
-                System.out.println(">>>>>>>>>>>>>>>");
-                buffer.compact();
-            } else {
-                System.out.println("<<<<<<<<<<<<<<<");
+        try {
+            while (sc.read(buffer) != -1) {
+                buffer.flip();
+                charbuffer = decoder.decode(buffer);
+                String a = charbuffer.toString();
+                System.out.println("接收到 " + a);
                 buffer.clear();
+
+                //发送确认消息
+                String b = a + " 接收成功！";
+                buffer.put(b.getBytes());
+                buffer.flip();
+                int n = sc.write(buffer);
+
+                System.out.println("发送了 " + n + " 字节");
+                if (buffer.hasRemaining()) {
+                    System.out.println(">>>>>>>>>>>>>>>");
+                    buffer.compact();
+                } else {
+                    System.out.println("<<<<<<<<<<<<<<<");
+                    buffer.clear();
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("传输结束，关闭连接");
+            try {
+                sc.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
+
     }
 }
