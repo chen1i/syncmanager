@@ -182,7 +182,7 @@ public class UserInfoDao extends BaseDAO {
         return info;
     }
 
-    public UserInfo getAlluserInfoByUserNameAndPassword(String userName,String password,String type) {
+    public UserInfo getAlluserInfoByUserNameAndPassword(String userName, String password, String type) {
         UserInfo info=null;
         String sql = "select * from UserInfo where username = '"+userName+"' and userRealName='"+password+"' and remark='"+type+"'";
         Connection conn = getConn();

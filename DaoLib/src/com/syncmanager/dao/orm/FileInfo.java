@@ -30,7 +30,7 @@ public class FileInfo {
     /**
      * 文件的路径
      */
-    private String filepath;
+    private String fileurl;
     /**
      * 所属用户
      */
@@ -40,9 +40,14 @@ public class FileInfo {
      */
     private String maxsize;
     /**
+     * 存储地址
+     */
+    private String storepath;
+
+    /**
      * 原有的地址
      */
-    private String oldpath;
+    private String origPath;
 
 
     public int getId() {
@@ -85,12 +90,12 @@ public class FileInfo {
         this.createdate = createdate;
     }
 
-    public String getFilepath() {
-        return filepath;
+    public String getFileurl() {
+        return fileurl;
     }
 
-    public void setFilepath(String filepath) {
-        this.filepath = filepath;
+    public void setFileurl(String fileurl) {
+        this.fileurl = fileurl;
     }
 
     public String getUsername() {
@@ -109,11 +114,19 @@ public class FileInfo {
         this.maxsize = maxsize;
     }
 
-    public String getOldpath() {
-        return oldpath;
+    public String getStorepath() {
+        return storepath;
     }
 
-    public void setOldpath(String oldpath) {
-        this.oldpath = oldpath;
+    public void setStorepath(String storepath) {
+        this.storepath = storepath;
+    }
+
+    public String getOrigPath() {
+        return origPath;
+    }
+
+    public void setOrigPath(String origPath) {
+        this.origPath = origPath;
     }
 }

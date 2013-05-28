@@ -139,7 +139,7 @@ html>body td {
 						<%= user.getCreatedate()%>
 					</td>
 					<td>
-						<%= user.getFilepath()%>
+						<%= user.getFileurl()%>
 					</td>
 					<td>
 						<a href="autoFileUpload.jsp?id=<%=user.getId()%>">自动同步</a>

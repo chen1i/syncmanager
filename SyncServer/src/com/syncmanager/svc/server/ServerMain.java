@@ -31,7 +31,6 @@ public class ServerMain {
     }
 
     private void start() {
-        //Java 7 µÄĞÂÓï·¨
         try {
             ServerSocketChannel ssc = ServerSocketChannel.open();
             if (ssc.isOpen()) {
@@ -91,6 +90,7 @@ public class ServerMain {
                 } else {
                     System.out.println("<<<<<<<<<<<<<<<");
                     buffer.clear();
+                    sc.shutdownOutput();
                 }
             }
         } catch (IOException ex) {

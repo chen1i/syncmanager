@@ -97,10 +97,10 @@
     // 上传初始化
     su.initialize(pageContext);
     // 设定上传限制
-    // 1.限制每个上传文件的最大长度。
-    //su.setMaxFileSize(1000000);
-    // 2.限制总上传数据的长度。
-    //su.setTotalMaxFileSize(20000);
+    // 1.限制每个上传文件的最大长度 50M。
+    su.setMaxFileSize(1024*1024*50);
+    // 2.限制总上传数据的长度 100M。
+    su.setTotalMaxFileSize(1024*1024*100);
     // 3.设定允许上传的文件（通过扩展名限制）,仅允许doc,txt文件。
     su.setAllowedFilesList("docx,doc,txt,rtf,jpg,xls,pdf,pptx,ppt");
     // 4.设定禁止上传的文件（通过扩展名限制）,禁止上传带有exe,bat, jsp,htm,html扩展名的文件和没有扩展名的文件。
@@ -121,7 +121,7 @@
     out.println(count + "个文件上传成功！<br>");
 
     // 利用Request对象获取参数之值
-    out.println("TEST=" + su.getRequest().getParameter("TEST") + "<BR><BR>");
+    out.println("TEST=" + su.getRequest().getParameter("dirpath") + "<BR><BR>");
 
     // 逐一提取上传文件信息，同时可保存文件。
     for (int i = 0; i < su.getFiles().getCount(); i++) {
@@ -130,7 +130,8 @@
         if (null == info) {
             info = new FileInfo();
             info.setFilename(file.getFileName());
-            info.setFilepath("/upload/" + file.getFileName());
+            info.setOrigPath(su.getRequest().getParameter("dirpath"));
+            info.setFileurl("/upload/" + file.getFileName());
             info.setFilesize(String.valueOf(file.getSize()));
             info.setVersion("1");
             Date date = new Date();
@@ -140,11 +141,12 @@
             System.out.println();
             info.setUsername((String) request.getSession()
                     .getAttribute("adminUser"));
-            info.setOldpath(upload_dir.getAbsolutePath() + File.separator + file.getFileName());
+            info.setStorepath(upload_dir.getAbsolutePath() + File.separator + file.getFileName());
             fileInfoq.savefileInfo(info);
         } else {
             info.setFilesize(String.valueOf(file.getSize()));
             info.setVersion(String.valueOf(Integer.parseInt(info.getVersion()) + 1));
+            info.setOrigPath(su.getRequest().getParameter("dirpath"));
             fileInfoq.updatefileInfo(info);
         }
         // 若文件不存在则继续
@@ -163,6 +165,8 @@
                 + file.getFileExt() + "</TD></TR>");
         out.println("<TR><TD>文件全名（FilePathName）</TD><TD>"
                 + file.getFilePathName() + "</TD></TR>");
+        out.println("<TR><TD>文件原路径（FileOriginalPathName）</TD><TD>"
+                + info.getOrigPath() + "</TD></TR>");
         out.println("</TABLE><BR>");
     }
 %>

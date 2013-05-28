@@ -131,7 +131,7 @@ html>body td {
 						<%= user.getCreatedate()%>
 					</td>
 					<td>
-						<%= user.getFilepath()%>
+						<%= user.getFileurl()%>
 					</td>
 					<td>
 						<a href="download1.jsp?id=<%=user.getId()%>">обть</a>

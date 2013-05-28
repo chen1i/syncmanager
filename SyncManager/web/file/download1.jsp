@@ -14,7 +14,7 @@
     response.setContentType("application/x-download");
 
     //application.getRealPath("/main/mvplayer/CapSetup.msi");获取的物理路径
-    String filepath = info.getOldpath();
+    String filepath = info.getStorepath();
     filepath = filepath.replaceAll("\\\\", "/");
     String filedownload = filepath;
     String filedisplay = info.getFilename();

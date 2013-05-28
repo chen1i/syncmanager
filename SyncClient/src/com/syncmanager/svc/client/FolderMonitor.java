@@ -1,9 +1,16 @@
 package com.syncmanager.svc.client;
 
+import com.syncmanager.dao.FileInfoDao;
+import com.syncmanager.dao.UserInfoDao;
+import com.syncmanager.dao.orm.FileInfo;
+import com.syncmanager.dao.orm.UserInfo;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -11,10 +18,32 @@ public class FolderMonitor implements Runnable {
     private WatchService watchService;
     private final Map<WatchKey, Path> directories = new HashMap();
     private Path start_folder;
+    List<Path> monitor_list = new ArrayList<Path>();
     private Transfer comm;
 
     public FolderMonitor(String path) {
         start_folder = Paths.get(path);
+    }
+
+    public FolderMonitor(String user, String password) {
+        UserInfo ui = (new UserInfoDao()).getAlluserInfoByUserNameAndPassword(user, password, "2");
+        if (ui == null)
+            throw new RuntimeException("User name or password wrong");
+        List<FileInfo> myfiles = (new FileInfoDao()).getAllfileInfoByUserName(ui.getUsername());
+        if (myfiles == null || myfiles.isEmpty())
+            throw new RuntimeException("No files to sync");
+        else {
+            for (FileInfo fi : myfiles) {
+                Path p = Paths.get(fi.getOrigPath()+"/");
+                try {
+                    Path realp = p.toRealPath(LinkOption.NOFOLLOW_LINKS);
+                    System.out.println("will monitor >>> "+ realp.toString());
+                    monitor_list.add(realp);
+                } catch (IOException e) {
+                    System.out.println("Cannot access: " + p.toString());
+                }
+            }
+        }
     }
 
     public void setTransfer(Transfer transfer) {
@@ -26,7 +55,15 @@ public class FolderMonitor implements Runnable {
     public void run() {
         System.out.println("开始定时扫描目录... ");
         try {
-            watchRNDir(start_folder);
+            watchService = FileSystems.getDefault().newWatchService();
+            for (Path e: monitor_list) {
+                if (e.toFile().isDirectory())
+                    registerTree(e);
+                else
+                    registerPath(e);
+            }
+
+            watchRNDir();
         } catch (IOException ex){
             System.err.println(ex);
         } catch (InterruptedException ex) {
@@ -54,9 +91,7 @@ public class FolderMonitor implements Runnable {
         });
     }
 
-    private void watchRNDir(Path start) throws IOException, InterruptedException {
-        watchService = FileSystems.getDefault().newWatchService();
-        registerTree(start);
+    private void watchRNDir() throws IOException, InterruptedException {
         //服务运行于死循环模式
         while (true) {
             //取出一个有改动的事件key

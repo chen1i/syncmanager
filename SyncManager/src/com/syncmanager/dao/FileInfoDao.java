@@ -1,11 +1,12 @@
 package com.syncmanager.dao;
 
-import com.syncmanager.dao.orm.FileInfo;
-
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.syncmanager.dao.orm.FileInfo;
 
 /**
  * Created with Eclipse
@@ -16,8 +17,8 @@ import java.util.List;
 public class FileInfoDao extends BaseDAO {
     public boolean savefileInfo(FileInfo info) {
         boolean isflat = false;
-        String sql = "insert into fileInfo(filename,filesize,version,createdate,filepath,username,oldpath) "
-                + "values(?,?,?,?,?,?,?)";
+        String sql = "insert into fileInfo(filename,filesize,version,createdate,fileurl,username,storepath,origpath) "
+                + "values(?,?,?,?,?,?,?,?)";
         Connection conn = this.getConn();
         try {
             ps = conn.prepareStatement(sql);
@@ -25,9 +26,10 @@ public class FileInfoDao extends BaseDAO {
             ps.setString(2, info.getFilesize());
             ps.setString(3, info.getVersion());
             ps.setString(4, info.getCreatedate());
-            ps.setString(5, info.getFilepath());
+            ps.setString(5, info.getFileurl());
             ps.setString(6, info.getUsername());
-            ps.setString(7, info.getOldpath());
+            ps.setString(7, info.getStorepath());
+            ps.setString(8, info.getOrigPath());
             int count = ps.executeUpdate();
             if (count > 0) {
                 isflat = true;
@@ -73,16 +75,7 @@ public class FileInfoDao extends BaseDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                FileInfo info = new FileInfo();
-                info.setId(rs.getInt("id"));
-                info.setFilename(rs.getString("filename"));
-                info.setFilesize(rs.getString("filesize"));
-                info.setVersion(rs.getString("version"));
-                info.setCreatedate(rs.getString("createdate"));
-                info.setFilepath(rs.getString("filepath"));
-                info.setUsername(rs.getString("username"));
-                info.setMaxsize(rs.getString("maxsize"));
-                info.setOldpath(rs.getString("oldpath"));
+                FileInfo info = createFileInfoObj(rs);
                 list.add(info);
             }
         } catch (SQLException e) {
@@ -102,16 +95,7 @@ public class FileInfoDao extends BaseDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                FileInfo info = new FileInfo();
-                info.setId(rs.getInt("id"));
-                info.setFilename(rs.getString("filename"));
-                info.setFilesize(rs.getString("filesize"));
-                info.setVersion(rs.getString("version"));
-                info.setCreatedate(rs.getString("createdate"));
-                info.setFilepath(rs.getString("filepath"));
-                info.setUsername(rs.getString("username"));
-                info.setMaxsize(rs.getString("maxsize"));
-                info.setOldpath(rs.getString("oldpath"));
+                FileInfo info = createFileInfoObj(rs);
                 list.add(info);
             }
         } catch (SQLException e) {
@@ -131,16 +115,7 @@ public class FileInfoDao extends BaseDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
-                info = new FileInfo();
-                info.setId(rs.getInt("id"));
-                info.setFilename(rs.getString("filename"));
-                info.setFilesize(rs.getString("filesize"));
-                info.setVersion(rs.getString("version"));
-                info.setCreatedate(rs.getString("createdate"));
-                info.setFilepath(rs.getString("filepath"));
-                info.setUsername(rs.getString("username"));
-                info.setMaxsize(rs.getString("maxsize"));
-                info.setOldpath(rs.getString("oldpath"));
+                info = createFileInfoObj(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -159,16 +134,7 @@ public class FileInfoDao extends BaseDAO {
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             if (rs.next()) {
-                info = new FileInfo();
-                info.setId(rs.getInt("id"));
-                info.setFilename(rs.getString("filename"));
-                info.setFilesize(rs.getString("filesize"));
-                info.setVersion(rs.getString("version"));
-                info.setCreatedate(rs.getString("createdate"));
-                info.setFilepath(rs.getString("filepath"));
-                info.setUsername(rs.getString("username"));
-                info.setMaxsize(rs.getString("maxsize"));
-                info.setOldpath(rs.getString("oldpath"));
+                info = createFileInfoObj(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -176,6 +142,22 @@ public class FileInfoDao extends BaseDAO {
             closeResource();
             this.closeConn(conn);
         }
+        return info;
+    }
+
+    private FileInfo createFileInfoObj(ResultSet rs) throws SQLException {
+        FileInfo info;
+        info = new FileInfo();
+        info.setId(rs.getInt("id"));
+        info.setFilename(rs.getString("filename"));
+        info.setFilesize(rs.getString("filesize"));
+        info.setVersion(rs.getString("version"));
+        info.setCreatedate(rs.getString("createdate"));
+        info.setFileurl(rs.getString("fileurl"));
+        info.setUsername(rs.getString("username"));
+        info.setMaxsize(rs.getString("maxsize"));
+        info.setStorepath(rs.getString("storepath"));
+        info.setOrigPath(rs.getString("origpath"));
         return info;
     }
 }

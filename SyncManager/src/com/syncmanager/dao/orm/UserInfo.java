@@ -9,7 +9,7 @@ package com.syncmanager.dao.orm;
 public class UserInfo {
     private int id;
     private String username;
-    private String userRealName;
+    private String userRealName; //Õâ¸öÊÇÃÜÂë
     private String userclass;
     private int scroe;
     private String remark;

@@ -11,27 +11,24 @@ import java.nio.charset.CharsetDecoder;
 import java.util.Random;
 
 public class ClientMain {
+    private String user;
+    private String password;
+    private int port;
+    private String server_ip;
 
-    final int DEFAULT_PORT = 5555;
-    final String DEFAULT_SERVER_IP = "127.0.0.1";
-
-    int port;
-    String server_ip;
 
     public ClientMain(String[] args) {
-        if (args.length >= 2) {
-            port = Integer.parseInt(args[1]);
-            server_ip = args[0];
-        } else if (args.length == 1) {
-            port = DEFAULT_PORT;
-            server_ip = args[0];
-        } else {
-            port = DEFAULT_PORT;
-            server_ip = DEFAULT_SERVER_IP;
+        if (args.length < 4) {
+            System.out.println("Usage: java -cp <classpath> com.syncmanager.svc.client.ClientMain <user> <password> <server> <port>");
+            System.exit(-1);
         }
 
-    }
+        user = args[0];
+        password = args[1];
+        server_ip = args[2];
+        port = Integer.parseInt(args[3]);
 
+    }
 
     public static void main(String[] args) {
         ClientMain instance = new ClientMain(args);
@@ -39,8 +36,8 @@ public class ClientMain {
     }
 
     private void start_monitoring() {
-        //当前固定监视demo目录
-        FolderMonitor fm = new FolderMonitor("../demo");
+        //FolderMonitor会从DB中获得要监视的目录和文件
+        FolderMonitor fm = new FolderMonitor(user, password);
         //设置一个负责传送的通信对象
         fm.setTransfer(new Transfer(new InetSocketAddress(server_ip, port)));
         Thread monitor = new Thread(fm);
