@@ -10,6 +10,8 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
+import static com.syncmanager.svc.server.SyncInfo.Activity.*;
+
 public class ServerMain {
     final int DEFAULT_PORT = 5555;
     final String IP = "127.0.0.1";
@@ -65,8 +67,8 @@ public class ServerMain {
     }
 
     private void handle_connection(SocketChannel sc) {
-        System.out.println("We are going to receive something ...");
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        System.out.println("准备接收 ...");
+        ByteBuffer buffer = ByteBuffer.allocateDirect(1024 * 1024);
         CharBuffer charbuffer;
         CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
         try {
@@ -78,20 +80,17 @@ public class ServerMain {
                 buffer.clear();
 
                 //发送确认消息
-                String b = a + " 接收成功！";
+                String b = "OK";
                 buffer.put(b.getBytes());
                 buffer.flip();
                 int n = sc.write(buffer);
 
                 System.out.println("发送了 " + n + " 字节");
-                if (buffer.hasRemaining()) {
-                    System.out.println(">>>>>>>>>>>>>>>");
-                    buffer.compact();
-                } else {
-                    System.out.println("<<<<<<<<<<<<<<<");
-                    buffer.clear();
-                    sc.shutdownOutput();
-                }
+
+                SyncInfo si = new SyncInfo(a);
+
+                handle_sync(sc, si);
+
             }
         } catch (IOException ex) {
             System.out.println("传输结束，关闭连接");
@@ -102,5 +101,23 @@ public class ServerMain {
             }
         }
 
+    }
+
+    private void handle_sync(SocketChannel sc, SyncInfo si) throws IOException {
+        switch (si.getAct()) {
+            case Delete:
+                onFileDetetion(si.getFileName());
+                sc.close();
+                break;
+            case Create:
+                onFileCreation(si);
+                receive_file(sc);
+                sc.close();
+                break;
+            case Modify:
+                onFileModification(si);
+                receive_file(sc);
+                break;
+        }
     }
 }

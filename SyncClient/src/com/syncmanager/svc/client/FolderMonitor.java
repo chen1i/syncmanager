@@ -34,10 +34,10 @@ public class FolderMonitor implements Runnable {
             throw new RuntimeException("No files to sync");
         else {
             for (FileInfo fi : myfiles) {
-                Path p = Paths.get(fi.getOrigPath()+"/");
+                Path p = Paths.get(fi.getOrigPath() + "/");
                 try {
                     Path realp = p.toRealPath(LinkOption.NOFOLLOW_LINKS);
-                    System.out.println("will monitor >>> "+ realp.toString());
+                    System.out.println("will monitor >>> " + realp.toString());
                     monitor_list.add(realp);
                 } catch (IOException e) {
                     System.out.println("Cannot access: " + p.toString());
@@ -56,7 +56,7 @@ public class FolderMonitor implements Runnable {
         System.out.println("开始定时扫描目录... ");
         try {
             watchService = FileSystems.getDefault().newWatchService();
-            for (Path e: monitor_list) {
+            for (Path e : monitor_list) {
                 if (e.toFile().isDirectory())
                     registerTree(e);
                 else
@@ -64,7 +64,7 @@ public class FolderMonitor implements Runnable {
             }
 
             watchRNDir();
-        } catch (IOException ex){
+        } catch (IOException ex) {
             System.err.println(ex);
         } catch (InterruptedException ex) {
             System.err.println(ex);
@@ -103,23 +103,30 @@ public class FolderMonitor implements Runnable {
                 //事件发生的文件
                 final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) watchEvent;
                 final Path filename = watchEventPath.context();
-                //忽略过时的事件
                 if (kind == StandardWatchEventKinds.OVERFLOW) {
+                    //忽略过时的事件
                     continue;
-                }
-                //对于创建文件的事件，如果该文件是个目录，需要把这个新加的目录也加到扫瞄列表里
-                if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
+                } else if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
+                    //对于创建文件的事件，如果该文件是个目录，需要把这个新加的目录也加到扫瞄列表里
                     final Path directory_path = directories.get(key);
                     final Path child = directory_path.resolve(filename);
                     if (Files.isDirectory(child, LinkOption.NOFOLLOW_LINKS)) {
                         registerTree(child);
+                    } else {
+                        onFileCreation(child);
                     }
+                } else if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
+                    //改变过的文件需要重新上传
+                    onFileModification(filename);
+                } else {
+                    //删除的文件也要在服务端删除
+                    onFileDeletion(filename);
                 }
 
                 //用于演示，发送有改动的文件名给服务器
                 String activity = kind.toString() + " -> " + filename;
                 System.out.println(activity);
-                comm.send_file_to_server(activity);
+                comm.send_demo_cmd(activity);
 
             }
             //重置key
@@ -132,7 +139,22 @@ public class FolderMonitor implements Runnable {
                     break;
                 }
             }
-        }
+        }// infinity loop
         watchService.close();
+    }
+
+    private void onFileDeletion(Path filename) {
+        String cmd= new SyncActivity(filename, SyncActivity.Activity.Delete).toCmdString();
+        comm.send_cmd(cmd);
+    }
+
+    private void onFileModification(Path filename) {
+        String cmd = new SyncActivity(filename, SyncActivity.Activity.Modify).toCmdString();
+        comm.send_cmd_and_file(cmd, filename);
+    }
+
+    private void onFileCreation(Path child) {
+        String cmd = new SyncActivity(child, SyncActivity.Activity.Create).toCmdString();
+        comm.send_cmd_and_file(cmd, child);
     }
 }

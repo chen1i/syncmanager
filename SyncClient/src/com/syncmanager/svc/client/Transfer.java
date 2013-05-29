@@ -18,7 +18,9 @@ public class Transfer {
         svr_address = server;
     }
 
-    public int send_file_to_server(String activity) {
+    public int send_cmd(String cmd) {
+        int bytes_sent = 0;
+        CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
         //创建客户端socket
         try {
             SocketChannel socketChannel = SocketChannel.open();
@@ -30,39 +32,54 @@ public class Transfer {
                 socketChannel.connect(svr_address);
 
                 if (socketChannel.isConnected()) {
-                    ByteBuffer sendBuffer = ByteBuffer.wrap(activity.getBytes());
+                    ByteBuffer sendBuffer = ByteBuffer.wrap(cmd.getBytes());
                     //连接成功，开始传送数据
-                    while(socketChannel.write(sendBuffer)>0) {
-                        if (sendBuffer.hasRemaining())
+                    int n = socketChannel.write(sendBuffer);
+                    while (n > 0) {
+                        bytes_sent += n;
+                        if (sendBuffer.hasRemaining()) {
                             sendBuffer.compact();
-                        else {
+                            n = socketChannel.write(sendBuffer);
+                        } else {
                             sendBuffer.clear();
                             break;
                         }
                     }
 
                     //接收确认消息
+                    int m;
                     ByteBuffer recvBuffer = ByteBuffer.allocate(1024);
-                    while(socketChannel.read(recvBuffer) != -1) {
+                    while ((m = socketChannel.read(recvBuffer)) != -1) {
                         recvBuffer.flip();
-                        System.out.println(Charset.defaultCharset().newDecoder()
-                                .decode(recvBuffer).toString());
-                        recvBuffer.clear();
+                        String ackMsg = decoder.decode(recvBuffer).toString();
+                        System.out.println(ackMsg);
+                        if (ackMsg == "OK") {
+                            recvBuffer.clear();
+                            //命令接收正常，关闭连接
+                            System.out.println("服务端接收正常, 关闭连接.");
+                            socketChannel.close();
+                        }
                     }
-                    System.out.println("Server shutdown connection, close client side.");
-                    socketChannel.close();
+                    if (m<0) {
+                        System.out.println("服务端主动断开, 关闭连接.");
+                        socketChannel.close();
+                    }
                 }
             }
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             System.err.println(ex);
         }
 
-        return 0;
+        return bytes_sent;
     }
 
-    public int real_send_file_to_server(Path changed_file) {
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
-        ByteBuffer helloBuffer = ByteBuffer.wrap("Hello !".getBytes());
+    public int send_demo_cmd(String activity) {
+        return send_cmd(activity);
+    }
+
+    public int send_cmd_and_file(String cmd, Path changed_file) {
+        ByteBuffer cmdBuffer = ByteBuffer.wrap(cmd.getBytes());
+        ByteBuffer fileBuffer = ByteBuffer.allocate(1024 * 1024);
         CharBuffer charBuffer;
         CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
 
@@ -74,7 +91,7 @@ public class Transfer {
                 socketChannel.configureBlocking(true);
                 //其他可选项
                 socketChannel.setOption(StandardSocketOptions.SO_RCVBUF, 128 * 1024);
-                socketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 128 * 1024);
+                socketChannel.setOption(StandardSocketOptions.SO_SNDBUF, 1024 * 1024);
                 socketChannel.setOption(StandardSocketOptions.SO_KEEPALIVE, true);
                 socketChannel.setOption(StandardSocketOptions.SO_LINGER, 5);
 
@@ -83,7 +100,8 @@ public class Transfer {
 
                 if (socketChannel.isConnected()) {
                     //连接成功，开始传送数据
-                    socketChannel.write(helloBuffer);
+                    socketChannel.write(cmdBuffer);
+
                     while (socketChannel.read(buffer) != -1) {
                         buffer.flip();
                         charBuffer = decoder.decode(buffer);
@@ -127,5 +145,4 @@ public class Transfer {
         }
         return 0;
     }
-
 }
