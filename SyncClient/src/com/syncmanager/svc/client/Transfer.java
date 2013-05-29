@@ -49,6 +49,7 @@ public class Transfer {
                                 .decode(recvBuffer).toString());
                         recvBuffer.clear();
                     }
+                    System.out.println("Server shutdown connection, close client side.");
                     socketChannel.close();
                 }
             }
@@ -113,6 +114,8 @@ public class Transfer {
                             }
                         }
                     }
+                    System.out.println("Server shutdown connection, close client side.");
+                    socketChannel.close();
                 } else {
                     System.out.println("The connection cannot be established!");
                 }
