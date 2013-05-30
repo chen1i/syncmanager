@@ -89,7 +89,7 @@ public class ServerMain {
                 int n = sc.write(buffer);
 
                 System.out.println("发送了 " + n + " 字节");
-
+                buffer.clear();
                 SyncInfo si = new SyncInfo(a);
 
                 handle_sync(sc, si);
@@ -120,6 +120,7 @@ public class ServerMain {
             case Modify:
                 onFileModification(si);
                 receive_file(sc, si);
+                sc.close();
                 break;
         }
     }
@@ -134,7 +135,8 @@ public class ServerMain {
             FileChannel fileChannel = raf.getChannel();
             fileSize = fileChannel.transferFrom(sc, 0, si.getFileSize());
             raf.close();
-            System.out.println("Receive file OK");
+            fileChannel.close();
+            System.out.println("文件接收正常，大小 "+fileSize+" 字节");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -145,11 +147,11 @@ public class ServerMain {
     }
 
     private void onFileModification(SyncInfo si) {
-        System.out.print("TODO: Modify file >>> " + si.getFileName());
+        System.out.println("TODO: Modify file >>> " + si.getFileName());
     }
 
     private void onFileCreation(SyncInfo si) {
-        System.out.print("TODO: Create file >>> " + si.getFileName());
+        System.out.println("TODO: Create file >>> " + si.getFileName());
     }
 
     private void onFileDetetion(String fileName) {

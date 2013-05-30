@@ -96,16 +96,17 @@ public class FolderMonitor implements Runnable {
         while (true) {
             //取出一个有改动的事件key
             final WatchKey key = watchService.take();
+            Path dir = (Path) key.watchable();
             //遍历所有的事件
             for (WatchEvent<?> watchEvent : key.pollEvents()) {
                 //得到事件类型（创建，改动，删除）
                 final WatchEvent.Kind<?> kind = watchEvent.kind();
                 //事件发生的文件
                 final WatchEvent<Path> watchEventPath = (WatchEvent<Path>) watchEvent;
-                final Path filename = watchEventPath.context();
+                final Path filename = dir.resolve(watchEventPath.context());
                 if (kind == StandardWatchEventKinds.OVERFLOW) {
                     //忽略过时的事件
-                    continue;
+                    // do nothing
                 } else if (kind == StandardWatchEventKinds.ENTRY_CREATE) {
                     //对于创建文件的事件，如果该文件是个目录，需要把这个新加的目录也加到扫瞄列表里
                     final Path directory_path = directories.get(key);
@@ -122,12 +123,6 @@ public class FolderMonitor implements Runnable {
                     //删除的文件也要在服务端删除
                     onFileDeletion(filename);
                 }
-
-                //用于演示，发送有改动的文件名给服务器
-                String activity = kind.toString() + " -> " + filename;
-                System.out.println(activity);
-                comm.send_demo_cmd(activity);
-
             }
             //重置key
             boolean valid = key.reset();

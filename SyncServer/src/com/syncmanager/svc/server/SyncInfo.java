@@ -37,11 +37,11 @@ public class SyncInfo {
     public SyncInfo(String cmd) {
         Scanner scanner = new Scanner(cmd);
         String a = scanner.nextLine();
-        if (a=="C")
+        if (a.equals("C"))
             act = Activity.Create;
-        else if (a=="M")
+        else if (a.equals("M"))
             act = Activity.Modify;
-        else if (a=="D")
+        else if (a.equals("D"))
             act = Activity.Delete;
         else
             throw new RuntimeException("Unsupported Activity.");

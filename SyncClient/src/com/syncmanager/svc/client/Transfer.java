@@ -56,11 +56,12 @@ public class Transfer {
                         recvBuffer.flip();
                         String ackMsg = decoder.decode(recvBuffer).toString();
                         System.out.println(ackMsg);
-                        if (ackMsg == "OK") {
+                        if (ackMsg.equals("OK")) {
                             recvBuffer.clear();
                             //命令接收正常，关闭连接
                             System.out.println("服务端接收正常, 关闭连接.");
                             socketChannel.close();
+                            break;
                         }
                     }
                     if (m < 0) {
@@ -82,7 +83,6 @@ public class Transfer {
 
     public int send_cmd_and_file(String cmd, Path changed_file) {
         ByteBuffer cmdBuffer = ByteBuffer.wrap(cmd.getBytes());
-        ByteBuffer fileBuffer = ByteBuffer.allocate(1024 * 1024);
         ByteBuffer ackBuffer = ByteBuffer.allocate(1024);
 
         CharBuffer charBuffer;
@@ -104,31 +104,35 @@ public class Transfer {
                 socketChannel.connect(svr_address);
 
                 if (socketChannel.isConnected()) {
-                    //连接成功，开始传送数据
+                    //连接成功，开始传送命令
+                    System.out.println(">>>>> "+cmd);
                     socketChannel.write(cmdBuffer);
 
                     while (socketChannel.read(ackBuffer) != -1) {
                         ackBuffer.flip();
                         charBuffer = decoder.decode(ackBuffer);
+                        ackBuffer.clear();
                         String ack = charBuffer.toString();
-                        System.out.println(ack);
-                        if (ack == "OK") {
-                            System.out.println("命令接收正常，开始传送文件");
+                        System.out.println("<<<< " + ack);
+                        if (ack.equals("OK")) {
+                            System.out.println("命令被服务端正常接收，开始向服务端传送文件");
 
                             FileInputStream fis = new FileInputStream(changed_file.toFile());
                             long offset = 0;
                             long totalBytes = changed_file.toFile().length();
-
+                            System.out.println("总共需要传送 "+totalBytes+ " 字节");
                             FileChannel fileChannel = fis.getChannel();
                             while (offset < totalBytes) {
-                                long buffSize = 1024 * 4; //每次传4K
+                                long buffSize = 1024 * 4; //每次最多传4K
                                 if (totalBytes - offset < buffSize) {
                                     buffSize = totalBytes - offset;
                                 }
 
                                 long transferred = fileChannel.transferTo(offset, buffSize, socketChannel);
-                                if (transferred > 0)
+                                if (transferred > 0) {
                                     offset += transferred;
+                                    System.out.println("已经传送 "+offset+ " 字节");
+                                }
                             }
 
                             fileChannel.close();
