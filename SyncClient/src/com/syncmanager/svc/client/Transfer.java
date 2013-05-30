@@ -1,10 +1,13 @@
 package com.syncmanager.svc.client;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
@@ -60,7 +63,7 @@ public class Transfer {
                             socketChannel.close();
                         }
                     }
-                    if (m<0) {
+                    if (m < 0) {
                         System.out.println("服务端主动断开, 关闭连接.");
                         socketChannel.close();
                     }
@@ -80,6 +83,8 @@ public class Transfer {
     public int send_cmd_and_file(String cmd, Path changed_file) {
         ByteBuffer cmdBuffer = ByteBuffer.wrap(cmd.getBytes());
         ByteBuffer fileBuffer = ByteBuffer.allocate(1024 * 1024);
+        ByteBuffer ackBuffer = ByteBuffer.allocate(1024);
+
         CharBuffer charBuffer;
         CharsetDecoder decoder = Charset.defaultCharset().newDecoder();
 
@@ -102,34 +107,35 @@ public class Transfer {
                     //连接成功，开始传送数据
                     socketChannel.write(cmdBuffer);
 
-                    while (socketChannel.read(buffer) != -1) {
-                        buffer.flip();
-                        charBuffer = decoder.decode(buffer);
-                        System.out.println(charBuffer.toString());
-                        if (buffer.hasRemaining()) {
-                            System.out.println(">>>>>>>>>>>>>>");
-                            buffer.compact();
-                        } else {
-                            System.out.println("<<<<<<<<<<<<<<<");
-                            buffer.clear();
-                        }
-                        int r = new Random().nextInt(100);
-                        if (r == 50) {
-                            System.out.println("50 was generated! Close the socket channel!");
-                            break;
-                        } else {
-                            String rand_string = "Random number:".concat(String.valueOf(r));
-                            buffer.clear();
-                            buffer.put(rand_string.getBytes());
-                            buffer.flip();
-                            socketChannel.write(buffer);
-                            if (buffer.hasRemaining()) {
-                                System.out.println("===============");
-                                buffer.compact();
-                            } else {
-                                System.out.println("---------------");
-                                buffer.clear();
+                    while (socketChannel.read(ackBuffer) != -1) {
+                        ackBuffer.flip();
+                        charBuffer = decoder.decode(ackBuffer);
+                        String ack = charBuffer.toString();
+                        System.out.println(ack);
+                        if (ack == "OK") {
+                            System.out.println("命令接收正常，开始传送文件");
+
+                            FileInputStream fis = new FileInputStream(changed_file.toFile());
+                            long offset = 0;
+                            long totalBytes = changed_file.toFile().length();
+
+                            FileChannel fileChannel = fis.getChannel();
+                            while (offset < totalBytes) {
+                                long buffSize = 1024 * 4; //每次传4K
+                                if (totalBytes - offset < buffSize) {
+                                    buffSize = totalBytes - offset;
+                                }
+
+                                long transferred = fileChannel.transferTo(offset, buffSize, socketChannel);
+                                if (transferred > 0)
+                                    offset += transferred;
                             }
+
+                            fileChannel.close();
+                            fis.close();
+                            System.out.println("+++++++++++++++++++");
+                        } else {
+                            System.out.println("命令接收异常");
                         }
                     }
                     System.out.println("Server shutdown connection, close client side.");

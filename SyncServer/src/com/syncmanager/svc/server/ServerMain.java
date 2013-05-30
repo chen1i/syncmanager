@@ -1,10 +1,13 @@
 package com.syncmanager.svc.server;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
 import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.channels.FileChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
@@ -111,13 +114,45 @@ public class ServerMain {
                 break;
             case Create:
                 onFileCreation(si);
-                receive_file(sc);
+                receive_file(sc, si);
                 sc.close();
                 break;
             case Modify:
                 onFileModification(si);
-                receive_file(sc);
+                receive_file(sc, si);
                 break;
         }
+    }
+
+    private long receive_file(SocketChannel sc, SyncInfo si){
+        long fileSize = 0;
+
+        try {
+            RandomAccessFile raf = new RandomAccessFile(si.getFileName(), "rw");
+            raf.setLength(si.getFileSize());
+
+            FileChannel fileChannel = raf.getChannel();
+            fileSize = fileChannel.transferFrom(sc, 0, si.getFileSize());
+            raf.close();
+            System.out.println("Receive file OK");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return fileSize;
+    }
+
+    private void onFileModification(SyncInfo si) {
+        System.out.print("TODO: Modify file >>> " + si.getFileName());
+    }
+
+    private void onFileCreation(SyncInfo si) {
+        System.out.print("TODO: Create file >>> " + si.getFileName());
+    }
+
+    private void onFileDetetion(String fileName) {
+        System.out.println("TODO: Delete file >>> " + fileName);
     }
 }

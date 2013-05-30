@@ -8,6 +8,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="DaoLib" />
+    <orderEntry type="library" name="mysql-connector-java-5.1.25-bin" level="project" />
   </component>
 </module>
 
