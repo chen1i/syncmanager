@@ -15,6 +15,8 @@ import java.util.Map;
 
 
 public class FolderMonitor implements Runnable {
+
+    private String owner;
     private WatchService watchService;
     private final Map<WatchKey, Path> directories = new HashMap();
     private Path start_folder;
@@ -29,6 +31,8 @@ public class FolderMonitor implements Runnable {
         UserInfo ui = (new UserInfoDao()).getAlluserInfoByUserNameAndPassword(user, password, "2");
         if (ui == null)
             throw new RuntimeException("User name or password wrong");
+        owner = ui.getUsername();
+
         List<FileInfo> myfiles = (new FileInfoDao()).getAllfileInfoByUserName(ui.getUsername());
         if (myfiles == null || myfiles.isEmpty())
             throw new RuntimeException("No files to sync");
@@ -139,17 +143,17 @@ public class FolderMonitor implements Runnable {
     }
 
     private void onFileDeletion(Path filename) {
-        String cmd= new SyncActivity(filename, SyncActivity.Activity.Delete).toCmdString();
+        String cmd= new SyncActivity(owner, filename, SyncActivity.Activity.Delete).toCmdString();
         comm.send_cmd(cmd);
     }
 
     private void onFileModification(Path filename) {
-        String cmd = new SyncActivity(filename, SyncActivity.Activity.Modify).toCmdString();
+        String cmd = new SyncActivity(owner, filename, SyncActivity.Activity.Modify).toCmdString();
         comm.send_cmd_and_file(cmd, filename);
     }
 
     private void onFileCreation(Path child) {
-        String cmd = new SyncActivity(child, SyncActivity.Activity.Create).toCmdString();
+        String cmd = new SyncActivity(owner, child, SyncActivity.Activity.Create).toCmdString();
         comm.send_cmd_and_file(cmd, child);
     }
 }

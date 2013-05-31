@@ -108,7 +108,7 @@
     // 上传文件
     su.upload();
     // 将上传文件全部保存到指定目录
-    File upload_dir = new File(System.getProperty("catalina.base"), "upload");
+    File upload_dir = new File(System.getProperty("catalina.base"), "../upload");
     if (upload_dir.exists() && upload_dir.isFile()) {
         //upload不是个目录，删除
         upload_dir.delete();

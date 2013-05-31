@@ -1,5 +1,9 @@
 package com.syncmanager.svc.server;
 
+import com.syncmanager.dao.FileInfoDao;
+import com.syncmanager.dao.orm.FileInfo;
+
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -12,26 +16,35 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
-
-import static com.syncmanager.svc.server.SyncInfo.Activity.*;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class ServerMain {
-    final int DEFAULT_PORT = 5555;
-    final String IP = "127.0.0.1";
+    Path uploadFolder = null;
 
     int port;
 
-    public ServerMain(String s) {
-        port = Integer.parseInt(s);
+    public ServerMain(String s, int i) {
+        Path path = Paths.get(s);
+        try {
+            uploadFolder = path.toRealPath(LinkOption.NOFOLLOW_LINKS);
+        } catch (IOException e) {
+            System.out.println("目录 " + s + " 不存在");
+            System.exit(-1);
+        }
+        port = i;
     }
 
 
     public static void main(String[] args) {
-        System.out.println("################################");
-        System.out.printf("Server start on port %s ...\n", args.length > 0 ? args[0] : "5555");
-        System.out.println("################################");
+        if (args.length < 2) {
+            System.out.println("Usage: java -cp <classpath> com.syncmanager.svc.server.ServerMain <upload_root_dir> <port>");
+        }
+        System.out.println("上传的文件位于目录： " + args[0]);
+        System.out.println("服务器端口： " + args[1]);
 
-        ServerMain svc = new ServerMain(args.length > 0 ? args[0] : "5555");
+        ServerMain svc = new ServerMain(args[0], Integer.parseInt(args[1]));
         svc.start();
     }
 
@@ -109,7 +122,7 @@ public class ServerMain {
     private void handle_sync(SocketChannel sc, SyncInfo si) throws IOException {
         switch (si.getAct()) {
             case Delete:
-                onFileDetetion(si.getFileName());
+                onFileDetetion(si);
                 sc.close();
                 break;
             case Create:
@@ -125,18 +138,18 @@ public class ServerMain {
         }
     }
 
-    private long receive_file(SocketChannel sc, SyncInfo si){
+    private long receive_file(SocketChannel sc, SyncInfo si) {
         long fileSize = 0;
 
         try {
-            RandomAccessFile raf = new RandomAccessFile(si.getFileName(), "rw");
+            RandomAccessFile raf = new RandomAccessFile(uploadFolder.toString() + File.separator + si.getBaseFileName(), "rw");
             raf.setLength(si.getFileSize());
 
             FileChannel fileChannel = raf.getChannel();
             fileSize = fileChannel.transferFrom(sc, 0, si.getFileSize());
             raf.close();
             fileChannel.close();
-            System.out.println("文件接收正常，大小 "+fileSize+" 字节");
+            System.out.println("文件接收正常，大小 " + fileSize + " 字节");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -147,14 +160,41 @@ public class ServerMain {
     }
 
     private void onFileModification(SyncInfo si) {
-        System.out.println("TODO: Modify file >>> " + si.getFileName());
+        //在数据库中更新记录
+        FileInfoDao fileInfoDao = new FileInfoDao();
+        FileInfo fileInfo = fileInfoDao.getfileInfoByFileName(si.getBaseFileName());
+        fileInfo.setCreatedate(si.getFileTime());
+        fileInfo.setFilesize(String.valueOf(si.getFileSize()));
+        fileInfo.setVersion(String.valueOf(Integer.valueOf(fileInfo.getVersion())+1));
+        fileInfo.setOrigPath(Paths.get(si.getFolderName()).toString());
+        fileInfoDao.updatefileInfo(fileInfo);
+        System.out.println("更新文件记录 >>> " + si.getFullFileName());
     }
 
     private void onFileCreation(SyncInfo si) {
-        System.out.println("TODO: Create file >>> " + si.getFileName());
+        //在数据库中添加记录
+        FileInfoDao fileInfoDao = new FileInfoDao();
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.setFilename(si.getBaseFileName());
+        fileInfo.setCreatedate(si.getFileTime());
+        fileInfo.setUsername(si.getOwner());
+        fileInfo.setFilesize(String.valueOf(si.getFileSize()));
+        fileInfo.setVersion("1");
+        fileInfo.setFileurl("/upload/" + si.getBaseFileName());
+        fileInfo.setStorepath(uploadFolder.toString() + File.separator + si.getBaseFileName());
+        fileInfo.setOrigPath(Paths.get(si.getFolderName()).toString());
+
+        fileInfoDao.savefileInfo(fileInfo);
+
+        System.out.println("创建文件记录 >>> " + si.getFullFileName());
     }
 
-    private void onFileDetetion(String fileName) {
-        System.out.println("TODO: Delete file >>> " + fileName);
+    private void onFileDetetion(SyncInfo si) {
+        //在数据库中删除记录
+        FileInfoDao fileInfoDao = new FileInfoDao();
+        fileInfoDao.deleteOneFile(si.getOwner(), si.getBaseFileName());
+
+        System.out.println("删除文件 >>> " + si.getBaseFileName());
+        uploadFolder.resolve(si.getBaseFileName()).toFile().delete();
     }
 }

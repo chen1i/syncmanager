@@ -1,5 +1,6 @@
 package com.syncmanager.svc.server;
 
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 /**
@@ -13,8 +14,16 @@ public class SyncInfo {
         return act;
     }
 
-    public String getFileName() {
+    public String getFullFileName() {
         return fileName;
+    }
+
+    public String getBaseFileName() {
+        return Paths.get(fileName).getFileName().toString();
+    }
+
+    public String getFolderName() {
+        return Paths.get(fileName).getParent().toString();
     }
 
     public long getFileSize() {
@@ -25,12 +34,17 @@ public class SyncInfo {
         return fileTime;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
     public enum Activity {
         Create, Modify, Delete
     }
 
     private Activity act;
-    private String   fileName;
+    private String owner;
+    private String fileName;
     private long   fileSize;
     private String fileTime;
 
@@ -46,6 +60,7 @@ public class SyncInfo {
         else
             throw new RuntimeException("Unsupported Activity.");
 
+        owner = scanner.nextLine();
         fileName = scanner.nextLine();
         fileSize = Long.parseLong(scanner.nextLine());
         fileTime = scanner.nextLine();

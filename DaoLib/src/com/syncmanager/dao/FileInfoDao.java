@@ -45,14 +45,15 @@ public class FileInfoDao extends BaseDAO {
 
     public boolean updatefileInfo(FileInfo info) {
         boolean isflat = false;
-        String sql = "update fileInfo set version=?,maxsize=?,filesize=? where id=?";
+        String sql = "update fileInfo set version=?,createdate=?,filesize=?, origpath=? where id=?";
         Connection conn = this.getConn();
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, info.getVersion());
-            ps.setString(2, info.getMaxsize());
+            ps.setString(2, info.getCreatedate());
             ps.setString(3, info.getFilesize());
-            ps.setInt(4, info.getId());
+            ps.setString(4, info.getOrigPath());
+            ps.setInt(5, info.getId());
             System.out.println(sql);
             int count = ps.executeUpdate();
             if (count > 0) {
@@ -159,5 +160,22 @@ public class FileInfoDao extends BaseDAO {
         info.setStorepath(rs.getString("storepath"));
         info.setOrigPath(rs.getString("origpath"));
         return info;
+    }
+
+    public void deleteOneFile(String user, String fileName) {
+        String sql = "delete from fileinfo where username = ? and filename= ?";
+        Connection conn = getConn();
+        FileInfo info = null;
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, user);
+            ps.setString(2, fileName);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeResource();
+            this.closeConn(conn);
+        }
     }
 }
